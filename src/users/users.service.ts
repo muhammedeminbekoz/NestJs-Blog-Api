@@ -21,4 +21,12 @@ export class UsersService {
   async createUser(data: Prisma.UsersCreateInput): Promise<Users> {
     return await this.prisma.users.create({ data });
   }
+
+  async findOne(email: string): Promise<Users | null> {
+    const data = await this.prisma.users.findUnique({
+      where: { email },
+    });
+    console.log('userservice: ', data);
+    return data;
+  }
 }
