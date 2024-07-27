@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UsersModel } from './model/users.model';
+import { CreateUserDto } from './dto/users.model';
 import * as bcrypt from 'bcrypt';
 
 @Controller('users')
@@ -18,8 +18,8 @@ export class UsersController {
   }
 
   @Post()
-  createUser(@Body() data: UsersModel) {
-    data.password = bcrypt.hashSync(data.password, 10);
-    return this.usersService.createUser(data);
+  createUser(@Body() createUserDto: CreateUserDto) {
+    createUserDto.password = bcrypt.hashSync(createUserDto.password, 10);
+    return this.usersService.createUser(createUserDto);
   }
 }
