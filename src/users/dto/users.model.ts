@@ -1,8 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
 
-export class UsersModel implements Prisma.UsersCreateInput {
-  id: number;
+export class CreateUserDto implements Prisma.UsersCreateInput {
   firstname: string;
   @IsString()
   lastname: string;
