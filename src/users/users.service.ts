@@ -19,11 +19,11 @@ export class UsersService {
   }
 
   async createUser(data: Prisma.UsersCreateInput): Promise<Users | string> {
-    const user = await this.prisma.users.findUnique({
-      where: { email: data.email },
-    });
-    if (user) return 'böyle bir kullanıcı mevcut';
-    return await this.prisma.users.create({ data });
+    try {
+      return await this.prisma.users.create({ data });
+    } catch (err) {
+      console.log(err?.code);
+    }
   }
 
   async findOne(email: string): Promise<Users | null> {
