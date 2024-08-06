@@ -7,11 +7,13 @@ import {
   Get,
   UseGuards,
   Request,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -19,8 +21,20 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto.email, loginDto.password);
+  async login(@Body() loginDto: LoginDto, @Res() res: Response) {
+    const { cookie, token } = await this.authService.login(
+      loginDto.email,
+      loginDto.password,
+    );
+    res.setHeader('Set-Cookie', cookie);
+    return res.status(200).json({ success: true, token });
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('logout')
+  logout(@Res() res: Response) {
+    res.setHeader('Set-Cokkie', this.authService.getCookieForLogout());
+    res.status(200).json({ success: true, message: 'successfully logged out' });
   }
 
   @Post('register')
