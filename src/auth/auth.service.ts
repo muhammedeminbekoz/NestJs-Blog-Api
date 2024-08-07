@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register.dto';
 import { jwtConstants } from './constants';
+import { PostgresErrorCode } from 'src/enums/postgresErrorCodes.enum';
 
 interface TokenPayload {
   userId: number;
