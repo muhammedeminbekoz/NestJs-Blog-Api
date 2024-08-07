@@ -7,7 +7,7 @@ import { jwtConstants } from './constants';
 import { PostgresErrorCode } from 'src/enums/postgresErrorCodes.enum';
 
 interface TokenPayload {
-  userId: number;
+  userId: string;
 }
 @Injectable()
 export class AuthService {
@@ -64,7 +64,7 @@ export class AuthService {
     }
   }
 
-  getCookieWithJwtToken(userId: number) {
+  getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
     return {
