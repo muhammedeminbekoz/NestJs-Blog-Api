@@ -13,7 +13,7 @@ import { PostsService } from './posts.service';
 import { Posts } from '@prisma/client';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Request } from 'express';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 
 @Controller('posts')
