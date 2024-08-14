@@ -6,8 +6,8 @@ import {
   Post,
   Get,
   UseGuards,
-  Request,
   Res,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
@@ -31,9 +31,9 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Post('logout')
+  @Get('logout')
   logout(@Res() res: Response) {
-    res.setHeader('Set-Cokkie', this.authService.getCookieForLogout());
+    res.setHeader('Set-Cookie', this.authService.getCookieForLogout());
     res.status(200).json({ success: true, message: 'successfully logged out' });
   }
 
@@ -44,7 +44,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  getProfile(@Req() req) {
     return req.user;
   }
 }
