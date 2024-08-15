@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { Posts, Prisma } from '@prisma/client';
+import { Posts } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 
 @Injectable()
 export class PostsService {
   constructor(private prisma: PrismaService) {}
 
-  getPosts(): Promise<Posts[]> {
-    return this.prisma.posts.findMany();
+  async getPosts(limit?: number, offset?: number) {
+    return await this.prisma.posts.findMany({
+      skip: offset,
+      take: limit ?? DEFAULT_PAGE_SIZE,
+    });
   }
 
   getUserPosts(userId: string): Promise<Posts[]> {
