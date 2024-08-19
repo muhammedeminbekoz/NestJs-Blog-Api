@@ -9,7 +9,7 @@ export class PostsService {
 
   async getPosts(limit?: number, offset?: number) {
     return await this.prisma.posts.findMany({
-      skip: offset,
+      skip: offset * limit,
       take: limit ?? DEFAULT_PAGE_SIZE,
     });
   }
