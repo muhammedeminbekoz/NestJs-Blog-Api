@@ -57,3 +57,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 notes.txt
 diyagram.drawio
+docker-compose.yml
