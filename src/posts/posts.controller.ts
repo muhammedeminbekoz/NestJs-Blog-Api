@@ -5,7 +5,9 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +17,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { Request } from 'express';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import { PaginationDto } from 'src/utils/dto/pagination.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -24,12 +27,8 @@ export class PostsController {
   ) {}
 
   @Get()
-  async getPosts(): Promise<Posts[]> {
-    const posts = await this.postsService.getPosts();
-    if (!posts) {
-      throw new HttpException('posts not found', HttpStatus.NOT_FOUND);
-    }
-    return posts;
+  async getPostsPage(@Query() { offset, limit }: PaginationDto) {
+    return this.postsService.getPosts(offset, limit);
   }
 
   @Get(':id')
